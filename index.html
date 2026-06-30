@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Eagle -> Notion Motion Ref</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #1e1e1e;
+    color: #eaeaea;
+    font-size: 13px;
+  }
+  body { padding: 16px; }
+
+  .item-preview {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 10px;
+    background: #2a2a2a;
+    border-radius: 8px;
+  }
+  .item-preview img {
+    width: 44px; height: 44px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #444;
+    flex-shrink: 0;
+  }
+  .item-preview .meta { overflow: hidden; }
+  .item-preview .name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .item-preview .sub {
+    color: #999;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  label {
+    display: block;
+    font-size: 11px;
+    color: #aaa;
+    margin: 12px 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    color: #eaeaea;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #5b8def;
+  }
+  textarea { min-height: 60px; }
+
+  .row { display: flex; gap: 8px; }
+  .row > div { flex: 1; }
+
+  button#submitBtn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 10px;
+    background: #5b8def;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button#submitBtn:disabled {
+    background: #3a3a3a;
+    color: #888;
+    cursor: not-allowed;
+  }
+  button#submitBtn:not(:disabled):hover { background: #4a7bd9; }
+
+  .status {
+    margin-top: 10px;
+    font-size: 12px;
+    min-height: 16px;
+  }
+  .status.error { color: #ff6b6b; }
+  .status.success { color: #5ee69b; }
+  .status.loading { color: #aaa; }
+
+  .no-selection {
+    text-align: center;
+    color: #888;
+    padding: 30px 10px;
+  }
+
+  .settings-link {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    font-size: 11px;
+    color: #777;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+  <div id="noSelection" class="no-selection" style="display:none;">
+    No item selected.<br>Select a video in Eagle, then reopen this plugin.
+  </div>
+
+  <div id="form" style="display:none;">
+    <div class="item-preview">
+      <img id="itemThumb" src="" alt="">
+      <div class="meta">
+        <div class="name" id="itemName">—</div>
+        <div class="sub" id="itemExt">—</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="timestamp">Timestamp</label>
+        <input type="text" id="timestamp" placeholder="e.g. 1:24" autocomplete="off">
+      </div>
+    </div>
+
+    <label for="comments">Comments / Why</label>
+    <textarea id="comments" placeholder="What's this reference for?"></textarea>
+
+    <button id="submitBtn">Push to Reel</button>
+    <div class="status" id="status"></div>
+    <div class="settings-link" id="settingsLink">Notion connection settings</div>
+  </div>
+
+  <div id="settingsPanel" style="display:none;">
+    <label for="notionToken">Notion Integration Token</label>
+    <input type="text" id="notionToken" placeholder="secret_...">
+    <label for="dataSourceId">Reel Data Source ID</label>
+    <input type="text" id="dataSourceId" value="a6728d0c-4af9-82e3-a11d-07cd8dbeb75c">
+    <button id="saveSettingsBtn" style="margin-top:14px;width:100%;padding:8px;background:#3a3a3a;color:#eaeaea;border:none;border-radius:6px;cursor:pointer;">Save</button>
+    <div class="settings-link" id="backLink">Back</div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="notion.js"></script>
+  <script src="thumbnail.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>
