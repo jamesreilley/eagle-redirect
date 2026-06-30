@@ -80,6 +80,12 @@
       // before Chrome potentially blanks it during the protocol handoff.
       setTimeout(function () {
         window.location.href = eagleUrl;
+        // Attempt to close the tab after Eagle has received the handoff.
+        // Only works if Notion opened this in a new tab (script-opened window).
+        // Silently ignored otherwise — no error, nothing breaks.
+        setTimeout(function () {
+          window.close();
+        }, 1000);
       }, 300);
     })();
   </script>
